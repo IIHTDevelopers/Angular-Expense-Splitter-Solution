@@ -1,0 +1,59 @@
+<div class="container">
+    <h2>Expense Splitter</h2>
+
+    <div>
+        <h4>Total Expenses: {{ totalExpenses | currency }}</h4>
+    </div>
+
+    <h3>Expenses by Member</h3>
+    <ul class="list-group mb-3">
+        <li class="list-group-item" *ngFor="let member of members">
+            {{ member.name }}: {{ expensesByMember[member.name] | currency }}
+        </li>
+    </ul>
+
+    <div class="mb-3">
+        <label for="memberName" class="form-label">Add New Member</label>
+        <input type="text" name="memberName" class="form-control" id="memberName" [(ngModel)]="newMemberName"
+            placeholder="Enter member name">
+        <button class="btn btn-primary mt-2" (click)="addMember(newMemberName)">Add Member</button>
+    </div>
+
+    <h3>Members</h3>
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let member of members">{{ member.name }}</li>
+    </ul>
+
+    <div class="mb-3">
+        <label for="expenseAmount" class="form-label">Expense Amount</label>
+        <input type="number" name="expenseAmount" class="form-control" id="expenseAmount" [(ngModel)]="newExpenseAmount"
+            placeholder="Enter expense amount">
+
+        <label for="paidBySelect" class="form-label mt-2">Paid By</label>
+        <select class="form-control" id="paidBySelect" [(ngModel)]="paidBy">
+            <option value="" disabled selected>Select who paid</option>
+            <option *ngFor="let member of members" [value]="member.name">{{member.name}}</option>
+        </select>
+
+        <div class="mt-2">Split Among:</div>
+        <div *ngFor="let member of members" class="form-check">
+            <input class="form-check-input" type="checkbox" #checkboxRef [id]="member.name"
+                (change)="onMemberSelectionChange(member.name, checkboxRef.checked)">
+            <label class="form-check-label" [for]="member.name">
+                {{member.name}}
+            </label>
+        </div>
+
+        <button class="btn btn-primary mt-2" (click)="addExpense(newExpenseAmount, paidBy, splitAmong)">Add
+            Expense</button>
+    </div>
+
+    <div *ngIf="settlements.length > 0">
+        <h3>Settlements</h3>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let settlement of settlements">
+                {{ settlement }}
+            </li>
+        </ul>
+    </div>
+</div>
