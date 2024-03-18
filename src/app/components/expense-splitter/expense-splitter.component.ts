@@ -18,8 +18,6 @@ export class ExpenseSplitterComponent {
   totalExpenses: number = 0;
   expensesByMember: { [key: string]: number } = {};
 
-  constructor() { }
-
   addMember(name: string): void {
     if (!name.trim()) return;
     this.members.push(new Member(name));
